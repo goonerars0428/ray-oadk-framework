@@ -1,0 +1,40 @@
+#配置文件示例
+spring:
+  datasource:
+    #常规数据源配置
+    sql-script-encoding: utf-8
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5
+      max-active: 40
+      min-idle: 5
+      max-wait: 60000
+      validation-query: SELECT 1
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      remove-abandoned: true
+      removeAbandonedTimeout: 1800
+      log-abandoned: true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      filters: stat
+      name: druid-datasource
+#      动态刷新配置将导致druid直接使用加密后的参数重新建立连接，而非先解密再使用，会导致后续的连接创建失败
+      username: root
+      password: inspur1234,
+      url: jdbc:mysql://192.168.9.82:6446/BO_tmp?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    #自定义多数据源配置
+    custom:
+      - key: bo
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://192.168.9.82:6446/BO_SW?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+        username: root
+        password: inspur1234,
+      - key: test
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+        username: root
+        password: inspur1234,

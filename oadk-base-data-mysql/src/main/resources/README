@@ -1,0 +1,21 @@
+#mysql多数据源使用说明
+1. pom引入依赖
+<dependency>
+    <groupId>org.ray</groupId>
+    <artifactId>oadk-base-data-mysql</artifactId>
+    <version>1.1.0</version>
+</dependency>
+2. application.yaml配置文件填写多数据源配置，参见application.sample
+注意：custom部分为自定义多数据源配置，key为数据源标识，后续在@DataSource和@TransactionMulti注解中使用
+3. springboot启动类添加以下注解
+#指定mybatis扫描包路径
+@MapperScan(basePackages = {"org.example.**.dao"})
+#导入多数据源注册器
+@Import(MultiDataSourceRegister.class)
+#开启事务管理器（如果需要事务）
+@EnableTransactionManagement
+3. 程序中使用@DataSource和@TransactionMulti注解实现切换数据源和多数据源事务功能
+@DataSource:多数据源切换，默认使用default常规配置数据源，如果属性key指定了application.yaml中custom包含的key，则切换至对应数据源。注解可添加至类和方法，方法优先级高于类
+@TransactionMulti:多数据源事务，属性dataSourceKey需指定事务中所有涉及的数据源key（否则报错），属性transactionType用于指定事务级别
+4. 注意
+由于使用aop方式实现，@DataSource注解在方法上使用时，不能和调用方法在同一个类！！！

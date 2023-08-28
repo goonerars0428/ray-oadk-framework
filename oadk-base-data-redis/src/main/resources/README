@@ -1,0 +1,11 @@
+#redis多数据源使用说明
+1. pom引入依赖
+<dependency>
+    <groupId>org.ray</groupId>
+    <artifactId>oadk-base-data-redis</artifactId>
+    <version>1.1.0</version>
+</dependency>
+2. application.yaml配置文件填写多数据源配置，参见application.sample
+注意：custom部分为自定义多数据源配置，redis-key（必须）为数据源标识；redis-type（必须）为数据源类型，枚举值可选为standalone（单机）/cluster（集群）
+其他配置只需配连接参数，连接池自动复用通用配置（不支持自定义覆盖）
+3. 程序中通过redisUtil.get(redis-key)使用
