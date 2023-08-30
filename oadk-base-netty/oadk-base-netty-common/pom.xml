@@ -5,21 +5,21 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.ray</groupId>
-        <artifactId>ray-oadk-framework</artifactId>
+        <artifactId>oadk-base-netty</artifactId>
         <version>1.1.0</version>
     </parent>
 
-    <artifactId>oadk-base-job-executor</artifactId>
+    <artifactId>oadk-base-netty-common</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>org.ray</groupId>
             <artifactId>oadk-base-core</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
         </dependency>
     </dependencies>
+
 </project>

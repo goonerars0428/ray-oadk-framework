@@ -1,11 +1,15 @@
 package org.ray.oadk.core.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ray.oadk.core.config.ApplicationContextConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @auth ray_cong
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RefreshScope
 public class LogUtil {
+
+    public static Map<String, String> LOG_MAP = new ConcurrentHashMap<>();
 
     static Logger logger = LoggerFactory.getLogger(LogUtil.class);
 
@@ -42,6 +48,7 @@ public class LogUtil {
     public Integer getLOG_BUTTON_STACK() {
         return LOG_BUTTON_STACK;
     }
+
     @Value("${constant.sys.logging.button.stack:1}")
     public void setLOG_BUTTON_STACK(Integer LOG_BUTTON_STACK) {
         this.LOG_BUTTON_STACK = LOG_BUTTON_STACK;
@@ -78,7 +85,7 @@ public class LogUtil {
         return LOG_STANDARD_FORMAT;
     }
 
-    @Value("${constant.sys.logging.standard_format:{}>>>{}:{}}")
+    @Value("${constant.sys.logging.standard_format:{}@{}>>>{}:{}}")
     public void setLOG_STANDARD_FORMAT(String LOG_STANDARD_FORMAT) {
         this.LOG_STANDARD_FORMAT = LOG_STANDARD_FORMAT;
     }
@@ -113,30 +120,41 @@ public class LogUtil {
     }
 
     public static void log(String level, String key, Object value) {
+        //获取当前线程堆栈，确认调用者信息
+        StackTraceElement callerObject = getCallerObject(2);
+        String logUser = new StringBuilder(callerObject.getClassName()).append(".").append(callerObject.getMethodName()).toString();
+        String logLevel = LOG_MAP.get(logUser);
+        if (StringUtils.isBlank(logLevel)) {
+            //LogUtil调用者注册
+            LOG_MAP.put(logUser, level);
+        } else {
+            //如果已注册，可通过接口修改日志级别，nacos修改将不生效
+            level = logLevel;
+        }
         if (getLogUtil().getLOG_BUTTON_PRINT() == 0) {
             return;
         }
         if (level.equalsIgnoreCase(LogLevel.DEBUG.value)) {
-            logger.debug(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), key, value);
+            logger.debug(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), logUser, key, value);
             return;
         }
         if (level.equalsIgnoreCase(LogLevel.INFO.value)) {
-            logger.info(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), key, value);
+            logger.info(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), logUser, key, value);
             return;
         }
         if (level.equalsIgnoreCase(LogLevel.WARN.value)) {
-            logger.warn(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), key, value);
+            logger.warn(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), logUser, key, value);
             return;
         }
         if (level.equalsIgnoreCase(LogLevel.ERROR.value)) {
             if (value instanceof Exception) {
                 Exception e = (Exception) value;
-                logger.error(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), key, e.getMessage());
-                if(getLogUtil().getLOG_BUTTON_STACK() == 1) {
+                logger.error(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), logUser, key, e.getMessage());
+                if (getLogUtil().getLOG_BUTTON_STACK() == 1) {
                     e.printStackTrace();
                 }
-            }else {
-                logger.error(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), key, value);
+            } else {
+                logger.error(getLogUtil().getLOG_STANDARD_FORMAT(), getThreadInfo(), logUser, key, value);
             }
             return;
         }
@@ -184,10 +202,24 @@ public class LogUtil {
      * @return
      */
     private static String getThreadInfo() {
-        return new StringBuilder().append(Thread.currentThread().getId()).append("@@").append(Thread.currentThread().getName()).toString();
+        return new StringBuilder("ray@").append(Thread.currentThread().getId()).toString();
     }
 
     private static LogUtil getLogUtil() {
         return ApplicationContextConfig.getApplicationContext().getBean(LogUtil.class);
     }
+
+    // level=0, is the method-name who call getCallerMethodName; =1 is the caller's name of the fun who call getCallerMethodName
+    public static StackTraceElement getCallerObject(int level) {
+        // (getStackTrace, getCallerMethodName, the-caller, ...)
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        level += 2;
+        if (level >= stackTrace.length) {
+            level = stackTrace.length - 1;
+        }
+        StackTraceElement ele = stackTrace[level];
+        return ele;
+//        return ele.getMethodName();
+    }
+
 }

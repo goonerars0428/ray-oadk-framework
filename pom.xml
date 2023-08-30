@@ -11,10 +11,9 @@
     <description>open-api-develop-kit，开放接口开发工具框架</description>
     <modules>
         <module>oadk-base-core</module>
-        <module>oadk-base-data-kafka</module>
-        <module>oadk-base-data-redis</module>
-        <module>oadk-base-data-mysql</module>
         <module>oadk-base-job-executor</module>
+        <module>oadk-base-data</module>
+        <module>oadk-base-netty</module>
     </modules>
 
     <parent>
@@ -24,15 +23,24 @@
     </parent>
 
     <properties>
+        <!-- oadk子模块版本 -->
+        <oadk-version>1.1.0</oadk-version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- springcloud版本 -->
         <spring-cloud-alibaba-dependencies.version>2021.0.5.0</spring-cloud-alibaba-dependencies.version>
         <spring-cloud-dependencies.version>2021.0.5</spring-cloud-dependencies.version>
-        <!-- mysql -->
+        <!-- mybatis -->
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
+        <!--druid-->
         <druid-spring-boot-starter.version>1.2.18</druid-spring-boot-starter.version>
+        <!--xxl-job-->
+        <xxl-job-core-version>2.2.2</xxl-job-core-version>
+        <!--redisson-->
+        <redisson-spring-boot-starter-version>3.17.7</redisson-spring-boot-starter-version>
+        <!--netty-->
+        <netty-all-version>4.1.84.Final</netty-all-version>
         <!-- 通用工具类版本 -->
     </properties>
 
@@ -53,36 +61,76 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
+            <!-- oadk module -->
             <dependency>
                 <groupId>org.ray</groupId>
                 <artifactId>oadk-base-core</artifactId>
-                <version>1.1.0</version>
+                <version>${oadk-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.ray</groupId>
                 <artifactId>oadk-base-data-mysql</artifactId>
-                <version>1.1.0</version>
+                <version>${oadk-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.ray</groupId>
                 <artifactId>oadk-base-data-redis</artifactId>
-                <version>1.1.0</version>
+                <version>${oadk-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ray</groupId>
+                <artifactId>oadk-base-data-kafka</artifactId>
+                <version>${oadk-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.ray</groupId>
                 <artifactId>oadk-base-job-executor</artifactId>
-                <version>1.1.0</version>
+                <version>${oadk-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.ray</groupId>
+                <artifactId>oadk-base-netty-common</artifactId>
+                <version>${oadk-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ray</groupId>
+                <artifactId>oadk-base-netty-client</artifactId>
+                <version>${oadk-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.ray</groupId>
+                <artifactId>oadk-base-netty-server</artifactId>
+                <version>${oadk-version}</version>
+            </dependency>
+            <!--mybatis-->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis-spring-boot-starter.version}</version>
             </dependency>
+            <!--druid-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid-spring-boot-starter.version}</version>
+            </dependency>
+            <!--xxl-job-->
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job-core-version}</version>
+            </dependency>
+            <!--redisson-->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson-spring-boot-starter-version}</version>
+            </dependency>
+            <!--netty-->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty-all-version}</version>
             </dependency>
             <!-- 通用工具类 -->
 

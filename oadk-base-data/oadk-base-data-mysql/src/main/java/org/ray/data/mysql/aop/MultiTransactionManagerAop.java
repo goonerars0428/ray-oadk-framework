@@ -12,6 +12,7 @@ import org.ray.data.mysql.annotation.TransactionMulti;
 import org.ray.data.mysql.core.DataSourceRouting;
 import org.ray.data.mysql.enums.TransactionTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.lang.reflect.Method;
@@ -23,6 +24,7 @@ import java.sql.SQLException;
  * 使用aspectj
  */
 @Aspect
+@Component
 public class MultiTransactionManagerAop {
 
 

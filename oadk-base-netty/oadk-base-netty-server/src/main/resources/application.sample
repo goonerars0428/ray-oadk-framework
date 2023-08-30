@@ -1,0 +1,10 @@
+constant:
+  netty:
+    server:
+      context_path: /webSocket
+      hb_read_idle_time: 120
+      hb_threshold: 3
+      manage_channel_check: 60
+      port_begin: 12346
+      port_end: 12347
+      protocol: ws://

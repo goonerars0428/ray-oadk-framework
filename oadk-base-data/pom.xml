@@ -8,18 +8,14 @@
         <artifactId>ray-oadk-framework</artifactId>
         <version>1.1.0</version>
     </parent>
+    <packaging>pom</packaging>
 
-    <artifactId>oadk-base-job-executor</artifactId>
+    <artifactId>oadk-base-data</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.ray</groupId>
-            <artifactId>oadk-base-core</artifactId>
-        </dependency>
+    <modules>
+        <module>oadk-base-data-kafka</module>
+        <module>oadk-base-data-redis</module>
+        <module>oadk-base-data-mysql</module>
+    </modules>
 
-        <dependency>
-            <groupId>com.xuxueli</groupId>
-            <artifactId>xxl-job-core</artifactId>
-        </dependency>
-    </dependencies>
 </project>

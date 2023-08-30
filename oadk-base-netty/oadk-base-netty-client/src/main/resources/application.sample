@@ -1,0 +1,10 @@
+constant:
+  netty:
+    client:
+      server_host: 127.0.0.1
+      server_port_begin: 12346
+      server_port_end: 12347
+      server_path: /webSocket
+      channel_count: 3
+      hb_write_idle_time: 90
+      token: test-token
