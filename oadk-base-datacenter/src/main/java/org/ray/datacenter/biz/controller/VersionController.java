@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController("oadk-versionController")
-@RequestMapping("oadk")
+@RequestMapping("oadk/version")
 public class VersionController {
 
-    @GetMapping(value = "version", name = "获取服务版本号")
+    @GetMapping(value = "info", name = "获取服务版本号")
     public String version() {
         return DatacenterConstant.SERVICE_VERSION;
     }

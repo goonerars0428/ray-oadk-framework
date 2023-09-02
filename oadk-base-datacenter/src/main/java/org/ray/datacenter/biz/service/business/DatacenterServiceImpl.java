@@ -154,7 +154,7 @@ public class DatacenterServiceImpl implements DatacenterService {
                 String paramBodyStr = doHandleParam(paramBody);
                 String paramPathStr = doHandleParam(paramPath);
                 //区分系统模块和应用模块
-                if (controllerName.startsWith("oadk")) {
+                if (controllerName.startsWith("oadk-")) {
                     //系统模块统一注册moduleId=0
 //                    continue;
                     moduleId = "oadk";
