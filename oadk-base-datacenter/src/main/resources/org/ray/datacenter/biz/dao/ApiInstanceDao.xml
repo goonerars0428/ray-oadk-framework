@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ray.datacenter.biz.dao.ApiInstanceDao">
+    <resultMap id="BaseResultMap" type="org.ray.datacenter.biz.domain.po.ApiInstance">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="module_id" property="moduleId" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="port" property="port" jdbcType="INTEGER"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="data_index" property="dataIndex" jdbcType="INTEGER"/>
+        <result column="data_status" property="dataStatus" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        <if test="fields == null">
+            id, module_id, ip, port, version, data_index, data_status, create_time, update_time
+        </if>
+        <if test="fields != null">
+            ${fields}
+        </if>
+    </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="org.ray.datacenter.biz.domain.po.ApiInstanceQuery">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from api_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="startRow != null">
+            limit #{startRow} , #{pageSize}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select id,
+               module_id,
+               ip,
+               port,
+               version,
+               data_index,
+               data_status,
+               create_time,
+               update_time
+        from api_instance
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from api_instance
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="org.ray.datacenter.biz.domain.po.ApiInstanceQuery">
+        delete from api_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="org.ray.datacenter.biz.domain.po.ApiInstance">
+        insert into api_instance (id, module_id, ip,
+                                  port, version, data_index,
+                                  data_status, create_time, update_time)
+        values (#{id,jdbcType=VARCHAR}, #{moduleId,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},
+                #{port,jdbcType=INTEGER}, #{version,jdbcType=VARCHAR}, #{dataIndex,jdbcType=INTEGER},
+                #{dataStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="org.ray.datacenter.biz.domain.po.ApiInstance">
+        insert into api_instance
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="moduleId != null">
+                module_id,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="port != null">
+                port,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="dataIndex != null">
+                data_index,
+            </if>
+            <if test="dataStatus != null">
+                data_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="moduleId != null">
+                #{moduleId,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                #{port,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="dataIndex != null">
+                #{dataIndex,jdbcType=INTEGER},
+            </if>
+            <if test="dataStatus != null">
+                #{dataStatus,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="org.ray.datacenter.biz.domain.po.ApiInstanceQuery"
+            resultType="java.lang.Integer">
+        select count(*) from api_instance
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update api_instance
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.moduleId != null">
+                module_id = #{record.moduleId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ip != null">
+                ip = #{record.ip,jdbcType=VARCHAR},
+            </if>
+            <if test="record.port != null">
+                port = #{record.port,jdbcType=INTEGER},
+            </if>
+            <if test="record.version != null">
+                version = #{record.version,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataIndex != null">
+                data_index = #{record.dataIndex,jdbcType=INTEGER},
+            </if>
+            <if test="record.dataStatus != null">
+                data_status = #{record.dataStatus,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update api_instance
+        set id = #{record.id,jdbcType=VARCHAR},
+        module_id = #{record.moduleId,jdbcType=VARCHAR},
+        ip = #{record.ip,jdbcType=VARCHAR},
+        port = #{record.port,jdbcType=INTEGER},
+        version = #{record.version,jdbcType=VARCHAR},
+        data_index = #{record.dataIndex,jdbcType=INTEGER},
+        data_status = #{record.dataStatus,jdbcType=TINYINT},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="org.ray.datacenter.biz.domain.po.ApiInstance">
+        update api_instance
+        <set>
+            <if test="moduleId != null">
+                module_id = #{moduleId,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="port != null">
+                port = #{port,jdbcType=INTEGER},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=VARCHAR},
+            </if>
+            <if test="dataIndex != null">
+                data_index = #{dataIndex,jdbcType=INTEGER},
+            </if>
+            <if test="dataStatus != null">
+                data_status = #{dataStatus,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="org.ray.datacenter.biz.domain.po.ApiInstance">
+        update api_instance
+        set module_id   = #{moduleId,jdbcType=VARCHAR},
+            ip          = #{ip,jdbcType=VARCHAR},
+            port        = #{port,jdbcType=INTEGER},
+            version     = #{version,jdbcType=VARCHAR},
+            data_index  = #{dataIndex,jdbcType=INTEGER},
+            data_status = #{dataStatus,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <insert id="upsert" parameterType="org.ray.datacenter.biz.domain.po.ApiInstance">
+        insert into api_instance (id, module_id, ip, port, version)
+        values (#{id}, #{moduleId}, #{ip}, #{port}, #{version}) on duplicate key
+        update version = #{version}
+    </insert>
+
+</mapper>

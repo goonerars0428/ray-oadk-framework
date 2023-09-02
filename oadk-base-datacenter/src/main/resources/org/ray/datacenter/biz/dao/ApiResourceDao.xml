@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ray.datacenter.biz.dao.ApiResourceDao" >
+  <resultMap id="BaseResultMap" type="org.ray.datacenter.biz.domain.po.ApiResource" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="module_id" property="moduleId" jdbcType="VARCHAR" />
+    <result column="param_url" property="paramUrl" jdbcType="VARCHAR" />
+    <result column="param_body" property="paramBody" jdbcType="VARCHAR" />
+    <result column="param_path" property="paramPath" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="data_index" property="dataIndex" jdbcType="INTEGER" />
+    <result column="data_status" property="dataStatus" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, `path`, `method`, `name`, module_id, param_url, param_body, param_path, description, 
+      data_index, data_status, create_time, update_time
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.ray.datacenter.biz.domain.po.ApiResourceQuery" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from api_resource
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    id,path,method,name,module_id,param_url,param_body,param_path,description,data_index,data_status,create_time,update_time
+    from api_resource
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from api_resource
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.ray.datacenter.biz.domain.po.ApiResourceQuery" >
+    delete from api_resource
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.ray.datacenter.biz.domain.po.ApiResource" >
+    insert into api_resource (id, `path`, `method`, 
+      `name`, module_id, param_url, 
+      param_body, param_path, description, 
+      data_index, data_status, create_time, 
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{moduleId,jdbcType=VARCHAR}, #{paramUrl,jdbcType=VARCHAR}, 
+      #{paramBody,jdbcType=VARCHAR}, #{paramPath,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{dataIndex,jdbcType=INTEGER}, #{dataStatus,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.ray.datacenter.biz.domain.po.ApiResource" >
+    insert into api_resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="path != null" >
+        `path`,
+      </if>
+      <if test="method != null" >
+        `method`,
+      </if>
+      <if test="name != null" >
+        `name`,
+      </if>
+      <if test="moduleId != null" >
+        module_id,
+      </if>
+      <if test="paramUrl != null" >
+        param_url,
+      </if>
+      <if test="paramBody != null" >
+        param_body,
+      </if>
+      <if test="paramPath != null" >
+        param_path,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="dataIndex != null" >
+        data_index,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleId != null" >
+        #{moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="paramUrl != null" >
+        #{paramUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="paramBody != null" >
+        #{paramBody,jdbcType=VARCHAR},
+      </if>
+      <if test="paramPath != null" >
+        #{paramPath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="dataIndex != null" >
+        #{dataIndex,jdbcType=INTEGER},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.ray.datacenter.biz.domain.po.ApiResourceQuery" resultType="java.lang.Integer" >
+    select count(*) from api_resource
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update api_resource
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.path != null" >
+        `path` = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.method != null" >
+        `method` = #{record.method,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        `name` = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleId != null" >
+        module_id = #{record.moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paramUrl != null" >
+        param_url = #{record.paramUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paramBody != null" >
+        param_body = #{record.paramBody,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paramPath != null" >
+        param_path = #{record.paramPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataIndex != null" >
+        data_index = #{record.dataIndex,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataStatus != null" >
+        data_status = #{record.dataStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update api_resource
+    set id = #{record.id,jdbcType=VARCHAR},
+      `path` = #{record.path,jdbcType=VARCHAR},
+      `method` = #{record.method,jdbcType=VARCHAR},
+      `name` = #{record.name,jdbcType=VARCHAR},
+      module_id = #{record.moduleId,jdbcType=VARCHAR},
+      param_url = #{record.paramUrl,jdbcType=VARCHAR},
+      param_body = #{record.paramBody,jdbcType=VARCHAR},
+      param_path = #{record.paramPath,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      data_index = #{record.dataIndex,jdbcType=INTEGER},
+      data_status = #{record.dataStatus,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.ray.datacenter.biz.domain.po.ApiResource" >
+    update api_resource
+    <set >
+      <if test="path != null" >
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        `method` = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleId != null" >
+        module_id = #{moduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="paramUrl != null" >
+        param_url = #{paramUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="paramBody != null" >
+        param_body = #{paramBody,jdbcType=VARCHAR},
+      </if>
+      <if test="paramPath != null" >
+        param_path = #{paramPath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="dataIndex != null" >
+        data_index = #{dataIndex,jdbcType=INTEGER},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.ray.datacenter.biz.domain.po.ApiResource" >
+    update api_resource
+    set `path`      = #{path,jdbcType=VARCHAR},
+        `method`    = #{method,jdbcType=VARCHAR},
+        `name`      = #{name,jdbcType=VARCHAR},
+        module_id   = #{moduleId,jdbcType=VARCHAR},
+        param_url   = #{paramUrl,jdbcType=VARCHAR},
+        param_body  = #{paramBody,jdbcType=VARCHAR},
+        param_path  = #{paramPath,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        data_index  = #{dataIndex,jdbcType=INTEGER},
+        data_status = #{dataStatus,jdbcType=TINYINT},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <insert id="upsert" parameterType="org.ray.datacenter.biz.domain.po.ApiResource" >
+      insert into api_resource (id, `name`, `path`, `method`, module_id, param_url, param_body, param_path)
+      values (#{id}, #{name}, #{path}, #{method}, #{moduleId}, #{paramUrl}, #{paramBody}, #{paramPath}) on duplicate key
+      update name = #{name}, `method` = #{method},param_url = #{paramUrl},param_body = #{paramBody},param_path = #{paramPath}
+  </insert>
+
+</mapper>

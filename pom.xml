@@ -14,6 +14,9 @@
         <module>oadk-base-job-executor</module>
         <module>oadk-base-data</module>
         <module>oadk-base-netty</module>
+        <module>oadk-engine</module>
+        <module>oadk-manage</module>
+        <module>oadk-base-datacenter</module>
     </modules>
 
     <parent>
@@ -42,6 +45,7 @@
         <!--netty-->
         <netty-all-version>4.1.84.Final</netty-all-version>
         <!-- 通用工具类版本 -->
+        <maven-model-version>3.0</maven-model-version>
     </properties>
 
     <dependencyManagement>
@@ -102,6 +106,12 @@
                 <artifactId>oadk-base-netty-server</artifactId>
                 <version>${oadk-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.ray</groupId>
+                <artifactId>oadk-base-datacenter</artifactId>
+                <version>${oadk-version}</version>
+            </dependency>
+
             <!--mybatis-->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -133,7 +143,11 @@
                 <version>${netty-all-version}</version>
             </dependency>
             <!-- 通用工具类 -->
-
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-model</artifactId>
+                <version>${maven-model-version}</version>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
